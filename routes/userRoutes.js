@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
+
 const User = require('./../models/user');
 const {jwtAuthMiddleware, generateToken} = require('./../jwt');
 
@@ -111,8 +113,10 @@ router.put('/profile/password', jwtAuthMiddleware, async (req, res) => {
         }
 
         // Update the user's password
-        user.password = newPassword;
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(newPassword, salt);
         await user.save();
+        
 
         console.log('password updated');
         res.status(200).json({ message: 'Password updated' });

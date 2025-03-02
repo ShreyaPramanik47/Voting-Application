@@ -1,10 +1,18 @@
+// server create
 const express = require('express')
 const app = express();
+
+// db
 const db = require('./db');
+
+// require .env file
 require('dotenv').config();
 
+// require bodyparser
 const bodyParser = require('body-parser'); 
 app.use(bodyParser.json()); // req.body
+
+// 3000 port is neded
 const PORT = process.env.PORT || 3000;
 
 // Import the router files
